@@ -3,9 +3,13 @@ import { StyleSheet, Text, View, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { LogBox } from "react-native";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
+LogBox.ignoreLogs([
+  "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
+]);
 export default function App() {
   // const navigation = useNavigation(); // <-- add this line
 
@@ -21,22 +25,33 @@ const HomeScreen = ({ navigation }) => {
     <View>
       <Text>HOME</Text>
       <View>
-        <Button title="HOME 2" onPress={() => navigation.navigate("Home2")} />
+        <Button title="HOME 2" onPress={() => navigation.navigate("Profile")} />
         <Button
+          title="Details"
+          onPress={() => navigation.navigate("Details")}
+        />
+        {/* <Button
           title="OTHER 2"
           onPress={() =>
             navigation.navigate("OtherStack", { screen: "Other2" })
           }
-        />
+        /> */}
       </View>
     </View>
   );
 };
 
-const HomeScreen2 = () => {
+const Profile = () => {
   return (
     <View>
       <Text>HOME 2</Text>
+    </View>
+  );
+};
+const Details = () => {
+  return (
+    <View>
+      <Text>Details</Text>
     </View>
   );
 };
@@ -46,6 +61,10 @@ const OtherScreen = ({ navigation }) => {
     <View>
       <Text>OTHER</Text>
       <Button title="OTHER 2" onPress={() => navigation.navigate("Other2")} />
+      <Button
+        title="HOME"
+        onPress={() => navigation.navigate("Home", { screen: "HomeScreen" })}
+      />
     </View>
   );
 };
@@ -60,9 +79,10 @@ const OtherScreen2 = () => {
 
 const HomeStack = () => {
   return (
-    <Stack.Navigator initialRouteName="Home1">
-      <Stack.Screen name="Home1" component={HomeScreen} />
-      <Stack.Screen name="Home2" component={HomeScreen2} />
+    <Stack.Navigator initialRouteName="Home">
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="Details" component={Details} />
     </Stack.Navigator>
   );
 };
